@@ -1,0 +1,8 @@
+torch
+torchvision
+flask
+Pillow
+os
+discord.py
+dotenv
+io
