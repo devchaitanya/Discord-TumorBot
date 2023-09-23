@@ -26,7 +26,13 @@ async def on_ready():
         print(f"Synced {len(synced)} commands")
     except Exception as e:
         print(e)
-
+        
+@bot.command(name='clear')
+async def clear_messages(ctx, amount=10):
+    channel = ctx.channel
+    messages = await channel.history(limit=amount).flatten()
+    await channel.delete_messages(messages)
+    
 @bot.tree.command(name="predict")
 @app_commands.describe(image="Upload an image to predict")
 async def predict(ctx, image: discord.Attachment):
@@ -50,5 +56,6 @@ async def predict(ctx, image: discord.Attachment):
         await ctx.response.send_message(f"Type of Tumor is {result}")
     except Exception as e:
         await ctx.response.send_message(f"An error occurred: {str(e)}")
+
 
 bot.run(TOKEN)
