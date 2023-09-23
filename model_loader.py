@@ -32,7 +32,7 @@ for name, child in resnet_model.named_children():
 resnet_model.to(device)
 
 resnet_model.load_state_dict(torch.load(
-    'tumorClassification/models/bt_resnet50_model.pt', map_location=torch.device('cpu')))
+    'models/bt_resnet50_model.pt', map_location=torch.device('cpu')))
 
 resnet_model.eval()
 
