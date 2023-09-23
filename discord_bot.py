@@ -1,3 +1,4 @@
+import datetime
 import os
 import discord
 from discord.ext import commands
@@ -7,6 +8,7 @@ import io
 from model_loader import resnet_model, transform, LABELS  # Import model-related code
 import torch
 from PIL import Image
+import pytz
 
 DEVICE_NAME = "cpu"
 device = torch.device(DEVICE_NAME)
@@ -26,12 +28,21 @@ async def on_ready():
         print(f"Synced {len(synced)} commands")
     except Exception as e:
         print(e)
-        
-@bot.command(name='clear')
-async def clear_messages(ctx, amount=10):
+
+@bot.tree.command(name='clear')
+@app_commands.describe()
+async def clear_messages(ctx):
     channel = ctx.channel
-    messages = await channel.history(limit=amount).flatten()
-    await channel.delete_messages(messages)
+    messages = []
+    utc_now = datetime.datetime.utcnow().replace(tzinfo=pytz.utc)
+    async for message in channel.history(limit=None):
+        if (utc_now - message.created_at).days < 14:
+            messages.append(message)
+    print(f"Deleting {len(messages)} messages")
+    while messages:
+        batch = messages[:100]
+        messages = messages[100:]
+        await channel.delete_messages(batch)
     
 @bot.tree.command(name="predict")
 @app_commands.describe(image="Upload an image to predict")
