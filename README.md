@@ -53,9 +53,11 @@ You can install the required packages using the provided `requirements.txt` file
 
 6. Load the model:
 
+   Download the trained model from here [MODEL](https://drive.google.com/file/d/1EfJ4nyGLvznEvtKSHuc2zr90NzDU2VtR/view?usp=drive_link)
+   
    Make sure you have the ResNet-50 model weights saved in the correct location (`DiscordBot/models/bt_resnet50_model.pt`) or modify the path accordingly.
 
-7. Run the bot:
+8. Run the bot:
 
    ```bash
    python discord_bot.py
